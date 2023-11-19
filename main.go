@@ -15,7 +15,9 @@ func main() {
 	})
 
 	base := r.Group("/v1")
-	programming.SetRouterGroup(base)
+
+	p := programming.ProgrammingFunctions{}
+	programming.SetRouterGroup(&p, base)
 
 	r.Run() // listen and serve on 0.0.0.0:8080
 }

@@ -12,10 +12,10 @@ type PostUuidOutput struct {
 }
 
 // The SetRouterGroup function defines all the endpoints for the programming utilities
-func SetRouterGroup(base *gin.RouterGroup) *gin.RouterGroup {
+func SetRouterGroup(p Interface, base *gin.RouterGroup) *gin.RouterGroup {
 	programmingGroup := base.Group("/programming")
 	{
-		programmingGroup.POST("/uuid", postUuid())
+		programmingGroup.POST("/uuid", postUuid(p))
 		// programmingGroup.POST("/jwt", postJwtDebugger(p))
 	}
 
@@ -23,12 +23,13 @@ func SetRouterGroup(base *gin.RouterGroup) *gin.RouterGroup {
 }
 
 // The postUuid function, returns another function Once the server receives the POST /programming/uuid request
-func postUuid() gin.HandlerFunc {
+// It returns 200 on success.
+func postUuid(p Interface) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		noHyphensParamValue := ctx.Query("no-hyphens")
 		isWithoutHyphens := noHyphensParamValue == "true"
 
-		uuid := NewUuid(isWithoutHyphens)
+		uuid := p.NewUuid(isWithoutHyphens)
 		output := PostUuidOutput{UUID: uuid}
 
 		ctx.JSON(http.StatusOK, output)
