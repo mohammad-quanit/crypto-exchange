@@ -18,7 +18,7 @@ func setupGin(IMock *MockInterface) *gin.Engine {
 	return r
 }
 
-func TestPostUuid(t *testing.T) {
+func TestPostUuidWithHyphen(t *testing.T) {
 	mockInterface := MockInterface{}
 	mockCall := mockInterface.On("NewUuid", false)
 	mockCall.Return("1ce44be5-fe68-46f7-a153-51c1c91a4ae4")
